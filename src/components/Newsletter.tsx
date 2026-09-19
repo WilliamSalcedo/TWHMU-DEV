@@ -24,7 +24,7 @@ export default function Newsletter() {
   };
 
   return (
-    <section id="journal" className="bg-bg py-[clamp(80px,12vw,140px)] px-6 lg:px-10">
+    <section id="journal" className="bg-bg py-[clamp(56px,8vw,100px)] px-6 lg:px-10">
       <div className="max-w-[1280px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center p-8 md:p-16 border border-aqua-deep bg-bg-raised bg-[radial-gradient(circle_at_100%_0%,rgba(127,207,207,0.05),transparent_50%),radial-gradient(circle_at_0%_100%,rgba(232,153,104,0.05),transparent_50%)]">
 

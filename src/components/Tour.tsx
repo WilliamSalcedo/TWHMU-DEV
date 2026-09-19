@@ -45,7 +45,7 @@ export default function Tour() {
   const hasMore = dates.length > PREVIEW_LIMIT;
 
   return (
-    <section id="tour" className="bg-bg-paper border-y border-stroke py-[clamp(80px,12vw,160px)] px-6 lg:px-10">
+    <section id="tour" className="bg-bg-paper border-y border-stroke py-[clamp(56px,8vw,110px)] px-6 lg:px-10">
       <div className="max-w-[1280px] mx-auto">
 
         <header className="mb-14 max-w-[900px]">

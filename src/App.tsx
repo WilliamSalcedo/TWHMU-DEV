@@ -6,6 +6,8 @@ import Profile from "./pages/Profile";
 import TourDate from "./pages/TourDate";
 import AllTourDates from "./pages/AllTourDates";
 import Lineage from "./pages/Lineage";
+import Catalog from "./pages/Catalog";
+import Product from "./pages/Product";
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
         <Route path="/tour" element={<AllTourDates />} />
         <Route path="/tour/:id" element={<TourDate />} />
         <Route path="/lineage" element={<Lineage />} />
+        <Route path="/shop" element={<Catalog />} />
+        <Route path="/shop/:id" element={<Product />} />
       </Routes>
       <Footer />
     </>

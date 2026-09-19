@@ -10,7 +10,7 @@ export default function Story() {
   }, []);
 
   return (
-    <section id="story" className="bg-bg py-[clamp(80px,12vw,160px)] px-6 lg:px-10">
+    <section id="story" className="bg-bg py-[clamp(56px,8vw,110px)] px-6 lg:px-10">
       <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-20 items-center">
 
         <div>

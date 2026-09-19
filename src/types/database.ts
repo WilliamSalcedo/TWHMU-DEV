@@ -35,6 +35,8 @@ export type ProductRow = {
   category: string;
   name: string;
   price: number;
+  compare_at_price: number | null;
+  description: string | null;
   image_url: string | null;
   stock: number;
   sort_order: number;

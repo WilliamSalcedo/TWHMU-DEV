@@ -23,7 +23,7 @@ export default function Women() {
   const hasMore = women.length > PREVIEW_LIMIT;
 
   return (
-    <section id="women" className="bg-bg py-[clamp(80px,12vw,160px)] px-6 lg:px-10">
+    <section id="women" className="bg-bg py-[clamp(56px,8vw,110px)] px-6 lg:px-10">
       <div className="max-w-[1280px] mx-auto">
 
         <header className="mb-14 max-w-[900px]">
