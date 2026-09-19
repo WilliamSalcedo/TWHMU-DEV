@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import { useAuthModal } from "../context/useAuthModal";
+import { useCart } from "../context/useCart";
 
 const links = [
   { label: "Home", href: "/" },
@@ -16,6 +17,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
   const { openAuth } = useAuthModal();
+  const { totalQuantity } = useCart();
 
   const displayName: string = user?.user_metadata?.name || user?.email || "";
   const initial = displayName ? displayName[0].toUpperCase() : "";
@@ -68,6 +70,18 @@ export default function Navbar() {
               </a>
             </li>
           ))}
+          {user && (
+            <li>
+              <Link
+                to="/cart"
+                className="relative pb-1.5 text-[11px] tracking-[0.18em] uppercase font-medium no-underline font-body text-ink-dim transition-colors duration-300
+                  after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-aqua after:transition-all after:duration-300
+                  hover:text-aqua hover:after:w-full"
+              >
+                CART{totalQuantity > 0 ? ` (${totalQuantity})` : ""}
+              </Link>
+            </li>
+          )}
         </ul>
 
         {/* Right actions */}
@@ -93,10 +107,6 @@ export default function Navbar() {
               Sign in
             </button>
           )}
-          {/* Counter — mobile */}
-          <span className="lg:hidden text-coral font-mono text-[13px] font-bold tracking-wider">
-            2
-          </span>
         </div>
       </nav>
 
@@ -118,6 +128,20 @@ export default function Navbar() {
               </a>
             </li>
           ))}
+          {user && (
+            <li
+              style={{ transitionDelay: menuOpen ? `${links.length * 60}ms` : "0ms" }}
+              className={`transition-all duration-300 ${menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            >
+              <Link
+                to="/cart"
+                onClick={() => setMenuOpen(false)}
+                className="text-ink font-display italic text-4xl font-semibold no-underline transition-colors duration-200 hover:text-aqua"
+              >
+                Cart{totalQuantity > 0 ? ` (${totalQuantity})` : ""}
+              </Link>
+            </li>
+          )}
         </ul>
         <a
           href="/#tour"

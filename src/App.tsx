@@ -8,6 +8,7 @@ import AllTourDates from "./pages/AllTourDates";
 import Lineage from "./pages/Lineage";
 import Catalog from "./pages/Catalog";
 import Product from "./pages/Product";
+import Cart from "./pages/Cart";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/lineage" element={<Lineage />} />
         <Route path="/shop" element={<Catalog />} />
         <Route path="/shop/:id" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
       <Footer />
     </>
