@@ -3,6 +3,14 @@ export type TourDateRow = {
   event_date: string;
   city: string;
   venue: string;
+  venue_address: string | null;
+  event_time: string | null;
+  price: number;
+  capacity: number;
+  tickets_sold: number;
+  headliner: string | null;
+  description: string | null;
+  age_restriction: string;
   tag_label: string;
   tag_variant: "coral" | "default" | "muted" | "aqua";
   action_label: string;

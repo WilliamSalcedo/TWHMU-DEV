@@ -14,3 +14,14 @@ export async function getTourDates(): Promise<TourDateRow[]> {
 
   return data ?? [];
 }
+
+export async function getTourDateById(id: string): Promise<TourDateRow | null> {
+  const { data, error } = await supabase.from("tour_dates").select("*").eq("id", id).maybeSingle();
+
+  if (error) {
+    console.error("Error fetching tour date:", error.message);
+    return null;
+  }
+
+  return data;
+}
