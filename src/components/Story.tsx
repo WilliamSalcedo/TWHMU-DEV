@@ -1,6 +1,14 @@
+import { useEffect, useState } from "react";
 import Placeholder from "./Placeholder";
+import { getSiteContentValue } from "../services/content";
 
 export default function Story() {
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    getSiteContentValue("story_photo_url").then(setPhotoUrl);
+  }, []);
+
   return (
     <section id="story" className="bg-bg py-[clamp(80px,12vw,160px)] px-6 lg:px-10">
       <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-20 items-center">
@@ -38,7 +46,11 @@ export default function Story() {
         </div>
 
         <figure className="m-0">
-          <Placeholder label="cast photo · drop here" aspect="portrait" />
+          {photoUrl ? (
+            <img src={photoUrl} alt="The company on opening night" className="w-full aspect-[3/4] object-cover" />
+          ) : (
+            <Placeholder label="cast photo · drop here" aspect="portrait" />
+          )}
           <figcaption className="font-mono text-[10px] tracking-[0.12em] uppercase text-ink-faint mt-2.5">
             From left: the company on opening night, Brooklyn Steel
           </figcaption>

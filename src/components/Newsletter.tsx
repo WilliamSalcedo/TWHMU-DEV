@@ -1,4 +1,28 @@
+import { useState, type FormEvent } from "react";
+import { subscribeToNewsletter } from "../services/newsletter";
+
 export default function Newsletter() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    const result = await subscribeToNewsletter(email);
+
+    if (!result.success) {
+      setStatus("error");
+      setMessage(result.error);
+      return;
+    }
+
+    setStatus("success");
+    setMessage("You're in. See you Saturday.");
+    setEmail("");
+  };
+
   return (
     <section id="journal" className="bg-bg py-[clamp(80px,12vw,140px)] px-6 lg:px-10">
       <div className="max-w-[1280px] mx-auto">
@@ -19,10 +43,7 @@ export default function Newsletter() {
             </p>
           </div>
 
-          <form
-            className="flex flex-col gap-3.5"
-            onSubmit={(e) => e.preventDefault()}
-          >
+          <form className="flex flex-col gap-3.5" onSubmit={handleSubmit}>
             <label className="sr-only" htmlFor="news-email">
               Email address
             </label>
@@ -31,14 +52,23 @@ export default function Newsletter() {
               type="email"
               placeholder="your@email.com"
               required
-              className="w-full px-5 py-4 bg-transparent border border-stroke-hi text-ink text-[15px] transition-colors duration-300 placeholder:text-ink-faint focus:outline-none focus:border-aqua"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={status === "loading" || status === "success"}
+              className="w-full px-5 py-4 bg-transparent border border-stroke-hi text-ink text-[15px] transition-colors duration-300 placeholder:text-ink-faint focus:outline-none focus:border-aqua disabled:opacity-50"
             />
             <button
               type="submit"
-              className="self-start inline-flex items-center gap-2 px-[22px] py-[13px] rounded-full border-[1.5px] border-aqua text-aqua bg-transparent font-body font-semibold text-xs tracking-[0.16em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)]"
+              disabled={status === "loading" || status === "success"}
+              className="self-start inline-flex items-center gap-2 px-[22px] py-[13px] rounded-full border-[1.5px] border-aqua text-aqua bg-transparent font-body font-semibold text-xs tracking-[0.16em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Subscribe ›
+              {status === "loading" ? "..." : status === "success" ? "Subscribed ✓" : "Subscribe ›"}
             </button>
+            {message && (
+              <p className={`font-mono text-[11px] tracking-[0.12em] ${status === "error" ? "text-coral" : "text-aqua"}`}>
+                {message}
+              </p>
+            )}
             <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-ink-faint">
               Or{" "}
               <a href="/account" className="text-ink-dim underline decoration-dashed underline-offset-4 hover:text-aqua normal-case tracking-normal">
