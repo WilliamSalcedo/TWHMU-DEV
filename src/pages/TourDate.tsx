@@ -60,18 +60,22 @@ export default function TourDate() {
   return (
     <section className="bg-bg pt-32 pb-24 px-6 lg:px-10">
       <div className="max-w-[820px] mx-auto">
-        <a
-          href="/#tour"
-          className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] uppercase text-ink-dim hover:text-aqua mb-10 no-underline"
-        >
-          ‹ Back to tour dates
-        </a>
+        <div className="mb-10">
+          <a
+            href="/#tour"
+            className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] uppercase text-ink-dim hover:text-aqua no-underline"
+          >
+            ‹ Back to tour dates
+          </a>
+        </div>
 
-        <span
-          className={`inline-flex px-[11px] py-[5px] border font-mono text-[10px] tracking-[0.12em] uppercase mb-5 ${tagClass[event.tag_variant]}`}
-        >
-          {event.tag_label}
-        </span>
+        <div className="mb-5">
+          <span
+            className={`inline-flex px-[11px] py-[5px] border font-mono text-[10px] tracking-[0.12em] uppercase ${tagClass[event.tag_variant]}`}
+          >
+            {event.tag_label}
+          </span>
+        </div>
 
         <h1 className="font-display font-extrabold text-[clamp(36px,5.5vw,64px)] leading-[0.98] tracking-[-0.01em] text-ink m-0 mb-2">
           {event.city}
