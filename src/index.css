@@ -1,12 +1,48 @@
 @import "tailwindcss";
-@import "./styles/theme.css";
+
+@theme{
+    /* ── Backgrounds ── */
+  --color-bg:           #0E0F12;
+  --color-bg-paper:     #15171C;
+  --color-bg-raised:    #1C1F26;
+  --color-bg-elevated:  #232730;
+
+  /* ── Texto ── */
+  --color-ink:         #EBE4D4;
+  --color-ink-dim:     #A39A87;
+  --color-ink-faint:   #6B6353;
+
+  /* ── Bordes ── */
+  --color-stroke:      #2E2C26;
+  --color-stroke-hi:   #4A4538;
+
+  /* ── Colores de marca ── */
+  --color-aqua:        #7FCFCF;
+  --color-aqua-hi:     #A6E0E0;
+  --color-aqua-deep:   #3F8E8E;
+  --color-coral:       #E89968;
+  --color-coral-deep:  #B86E3F;
+
+  /* ── Tipografía ── */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── Layout ── */
+  --container: 1280px;
+  --gutter:    clamp(20px, 4vw, 60px);
+  --radius:    2px;
+}
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 
 body {
   font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--ink);
+  background-color: #0E0F12;
+  color: #EBE4D4;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
+
