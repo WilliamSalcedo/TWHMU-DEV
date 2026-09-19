@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { getTourDates } from "../services/tour";
+import { requestCity } from "../services/cityRequests";
 import { useAuth } from "../context/useAuth";
 import type { TourDateRow } from "../types/database";
 import { formatShortDate } from "../utils/date";
@@ -17,12 +18,33 @@ export default function Tour() {
   const [dates, setDates] = useState<TourDateRow[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [cityInput, setCityInput] = useState("");
+  const [cityStatus, setCityStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [cityMessage, setCityMessage] = useState("");
+
   useEffect(() => {
     getTourDates().then((rows) => {
       setDates(rows);
       setLoading(false);
     });
   }, []);
+
+  const handleCitySubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setCityStatus("loading");
+
+    const result = await requestCity(cityInput, user?.email);
+
+    if (!result.success) {
+      setCityStatus("error");
+      setCityMessage(result.error);
+      return;
+    }
+
+    setCityStatus("success");
+    setCityMessage("Thanks — we'll count your vote.");
+    setCityInput("");
+  };
 
   return (
     <section id="tour" className="bg-bg-paper border-y border-stroke py-[clamp(80px,12vw,160px)] px-6 lg:px-10">
@@ -93,12 +115,36 @@ export default function Tour() {
               Request a tour stop
             </div>
           </div>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 px-[22px] py-[13px] rounded-full border-[1.5px] border-aqua text-aqua font-semibold text-xs tracking-[0.16em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)]"
-          >
-            Vote for your city ›
-          </a>
+
+          <div className="flex flex-col items-start gap-2">
+            <form onSubmit={handleCitySubmit} className="flex items-center gap-3 flex-wrap">
+              <label className="sr-only" htmlFor="city-request">
+                Your city
+              </label>
+              <input
+                id="city-request"
+                type="text"
+                required
+                placeholder="Your city"
+                value={cityInput}
+                onChange={(e) => setCityInput(e.target.value)}
+                disabled={cityStatus === "loading"}
+                className="px-4 py-3 bg-transparent border border-stroke-hi text-ink text-[13px] transition-colors duration-300 placeholder:text-ink-faint focus:outline-none focus:border-aqua disabled:opacity-50"
+              />
+              <button
+                type="submit"
+                disabled={cityStatus === "loading"}
+                className="inline-flex items-center gap-2 px-[22px] py-[13px] rounded-full border-[1.5px] border-aqua text-aqua font-semibold text-xs tracking-[0.16em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {cityStatus === "loading" ? "..." : "Vote for your city ›"}
+              </button>
+            </form>
+            {cityMessage && (
+              <p className={`font-mono text-[11px] tracking-[0.12em] ${cityStatus === "error" ? "text-coral" : "text-aqua"}`}>
+                {cityMessage}
+              </p>
+            )}
+          </div>
         </div>
 
       </div>

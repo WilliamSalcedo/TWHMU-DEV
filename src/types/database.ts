@@ -24,6 +24,7 @@ export type WomanRow = {
   id: string;
   name: string;
   role: string;
+  bio: string | null;
   image_url: string | null;
   is_large: boolean;
   sort_order: number;

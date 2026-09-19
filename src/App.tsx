@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import TourDate from "./pages/TourDate";
+import Lineage from "./pages/Lineage";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/account" element={<Profile />} />
         <Route path="/tour/:id" element={<TourDate />} />
+        <Route path="/lineage" element={<Lineage />} />
       </Routes>
       <Footer />
     </>
