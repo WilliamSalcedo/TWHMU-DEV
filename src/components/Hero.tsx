@@ -31,9 +31,12 @@ export default function Hero() {
 
         {/* CTAs */}
         <div className="flex items-center gap-5 mt-8 flex-wrap justify-center">
-          <button className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-aqua text-aqua bg-transparent font-body font-semibold text-[11px] tracking-[0.18em] uppercase cursor-pointer transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)]">
+          <a
+            href="/#tour"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-aqua text-aqua bg-transparent font-body font-semibold text-[11px] tracking-[0.18em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)] no-underline"
+          >
             Get Tickets <span>→</span>
-          </button>
+          </a>
           <button className="inline-flex items-center gap-2 text-ink-dim font-body text-[11px] tracking-[0.18em] uppercase font-medium cursor-pointer transition-colors duration-300 hover:text-ink bg-transparent border-none">
             <span className="text-coral">▶</span> Watch Trailer
           </button>

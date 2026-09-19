@@ -93,10 +93,6 @@ export default function Navbar() {
               Sign in
             </button>
           )}
-          {/* Tickets — desktop */}
-          <button className="hidden lg:inline-flex items-center gap-2 px-5 py-[10px] rounded-full border border-aqua text-aqua bg-transparent font-body font-semibold text-[11px] tracking-[0.18em] uppercase cursor-pointer transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_30px_rgba(127,207,207,0.25)]">
-            Tickets <span>→</span>
-          </button>
           {/* Counter — mobile */}
           <span className="lg:hidden text-coral font-mono text-[13px] font-bold tracking-wider">
             2
@@ -123,9 +119,13 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-        <button className="mt-12 inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-aqua text-aqua bg-transparent font-body font-semibold text-[11px] tracking-[0.18em] uppercase cursor-pointer transition-all duration-300 hover:bg-aqua hover:text-bg">
+        <a
+          href="/#tour"
+          onClick={() => setMenuOpen(false)}
+          className="mt-12 inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-aqua text-aqua bg-transparent font-body font-semibold text-[11px] tracking-[0.18em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg no-underline"
+        >
           Get Tickets →
-        </button>
+        </a>
         {user ? (
           <Link
             to="/account"
