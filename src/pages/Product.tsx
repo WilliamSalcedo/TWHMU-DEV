@@ -3,12 +3,16 @@ import { useParams } from "react-router-dom";
 import Placeholder from "../components/Placeholder";
 import { getProductById } from "../services/shop";
 import { useCart } from "../context/useCart";
+import { useAuth } from "../context/useAuth";
+import { useAuthModal } from "../context/useAuthModal";
 import { MAX_QTY_PER_PRODUCT } from "../context/cart-context";
 import type { ProductRow } from "../types/database";
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
   const { addToCart, items } = useCart();
+  const { user } = useAuth();
+  const { openAuth } = useAuthModal();
   const [product, setProduct] = useState<ProductRow | null | undefined>(undefined);
   const [quantity, setQuantity] = useState(1);
   const [ctaMessage, setCtaMessage] = useState<{ text: string; error: boolean } | null>(null);
@@ -46,8 +50,13 @@ export default function Product() {
   const maxQuantity = Math.max(Math.min(product.stock, roomLeft), 1);
 
   const handleAddToCart = () => {
+    if (!user) {
+      openAuth("signin");
+      return;
+    }
+
     const result = addToCart(
-      { id: product.id, name: product.name, price: product.price, image_url: product.image_url, stock: product.stock },
+      { id: product.id, type: "product", name: product.name, price: product.price, image_url: product.image_url, stock: product.stock },
       quantity
     );
 

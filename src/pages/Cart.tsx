@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Placeholder from "../components/Placeholder";
 import { useCart } from "../context/useCart";
 import { MAX_QTY_PER_PRODUCT } from "../context/cart-context";
@@ -65,11 +66,14 @@ export default function Cart() {
                 {item.image_url ? (
                   <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />
                 ) : (
-                  <Placeholder label="item" className="h-full" />
+                  <Placeholder label={item.type} className="h-full" />
                 )}
               </div>
 
               <div className="flex-1 min-w-[160px]">
+                <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-coral">
+                  {item.type === "ticket" ? "Ticket" : "Merch"}
+                </span>
                 <h2 className="font-display text-xl text-ink font-medium m-0 mb-1.5">{item.name}</h2>
                 <span className="font-display text-aqua">${item.price.toFixed(2)}</span>
               </div>
@@ -118,13 +122,12 @@ export default function Cart() {
             </span>
             <div className="font-display text-3xl text-aqua">${subtotal.toFixed(2)}</div>
           </div>
-          <button
-            type="button"
-            disabled
-            className="inline-flex items-center gap-2 px-[22px] py-[13px] rounded-full border-[1.5px] border-ink-faint text-ink-faint font-semibold text-xs tracking-[0.16em] uppercase cursor-not-allowed"
+          <Link
+            to="/checkout"
+            className="inline-flex items-center gap-2 px-[22px] py-[13px] rounded-full border-[1.5px] border-aqua text-aqua font-semibold text-xs tracking-[0.16em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg no-underline"
           >
-            Checkout — coming soon
-          </button>
+            Checkout →
+          </Link>
         </div>
 
       </div>

@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { getTourDateById } from "../services/tour";
 import { useAuth } from "../context/useAuth";
 import { useAuthModal } from "../context/useAuthModal";
+import { useCart } from "../context/useCart";
+import { MAX_QTY_PER_PRODUCT } from "../context/cart-context";
 import type { TourDateRow } from "../types/database";
 import { formatFullDate } from "../utils/date";
 
@@ -17,8 +19,10 @@ export default function TourDate() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const { openAuth } = useAuthModal();
+  const { addToCart, items } = useCart();
   const [event, setEvent] = useState<TourDateRow | null | undefined>(undefined);
-  const [ctaMessage, setCtaMessage] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [ctaMessage, setCtaMessage] = useState<{ text: string; error: boolean } | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -53,8 +57,29 @@ export default function TourDate() {
     ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${event.venue}, ${event.venue_address}`)}`
     : undefined;
 
+  const existingInCart = items.find((i) => i.id === event.id)?.quantity ?? 0;
+  const roomLeft = Math.max(MAX_QTY_PER_PRODUCT - existingInCart, 0);
+  const atMax = !event.sold_out && roomLeft <= 0;
+  const maxQuantity = Math.max(Math.min(remaining, roomLeft), 1);
+
   const handleGetTickets = () => {
-    setCtaMessage("Checkout is launching soon — this event is not purchasable yet.");
+    if (!user) {
+      openAuth("signin");
+      return;
+    }
+
+    const result = addToCart(
+      { id: event.id, type: "ticket", name: `${event.city} · ${formatFullDate(event.event_date)}`, price: event.price, image_url: null, stock: remaining },
+      quantity
+    );
+
+    if (!result.success) {
+      setCtaMessage({ text: result.error, error: true });
+      return;
+    }
+
+    setCtaMessage({ text: "Added to cart.", error: false });
+    setQuantity(1);
   };
 
   return (
@@ -149,17 +174,52 @@ export default function TourDate() {
                 Sign in
               </button>
             </>
+          ) : atMax ? (
+            <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-ink-faint">
+              You already have the max ({MAX_QTY_PER_PRODUCT}) of this ticket in your cart.
+            </p>
           ) : (
-            <button
-              type="button"
-              onClick={handleGetTickets}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border-[1.5px] border-aqua text-aqua bg-transparent font-body font-semibold text-xs tracking-[0.18em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)]"
-            >
-              Get Tickets · ${Number(event.price).toFixed(2)}
-            </button>
+            <>
+              <div className="flex items-center gap-4 mb-5">
+                <span className="font-mono text-[11px] tracking-[0.18em] uppercase text-ink-dim">Qty</span>
+                <div className="flex items-center border border-stroke-hi">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    disabled={quantity <= 1}
+                    className="w-9 h-9 flex items-center justify-center text-ink hover:text-aqua disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Decrease quantity"
+                  >
+                    −
+                  </button>
+                  <span className="w-9 text-center font-mono text-[13px] text-ink">{quantity}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.min(maxQuantity, q + 1))}
+                    disabled={quantity >= maxQuantity}
+                    className="w-9 h-9 flex items-center justify-center text-ink hover:text-aqua disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+                </div>
+                <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-faint">
+                  max {MAX_QTY_PER_PRODUCT} per order
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={handleGetTickets}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border-[1.5px] border-aqua text-aqua bg-transparent font-body font-semibold text-xs tracking-[0.18em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)]"
+              >
+                Get Tickets · ${Number(event.price).toFixed(2)}
+              </button>
+            </>
           )}
           {ctaMessage && (
-            <p className="font-mono text-[11px] tracking-[0.12em] text-coral mt-4">{ctaMessage}</p>
+            <p className={`font-mono text-[11px] tracking-[0.12em] mt-4 ${ctaMessage.error ? "text-coral" : "text-aqua"}`}>
+              {ctaMessage.text}
+            </p>
           )}
         </div>
       </div>

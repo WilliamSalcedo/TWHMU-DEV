@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Placeholder from "./Placeholder";
 import { useCart } from "../context/useCart";
+import { useAuth } from "../context/useAuth";
+import { useAuthModal } from "../context/useAuthModal";
 import type { ProductRow } from "../types/database";
 
 type Props = {
@@ -10,13 +12,20 @@ type Props = {
 
 function ProductCard({ product: p }: { product: ProductRow }) {
   const { addToCart } = useCart();
+  const { user } = useAuth();
+  const { openAuth } = useAuthModal();
   const [message, setMessage] = useState<{ text: string; error: boolean } | null>(null);
 
   const onSale = p.compare_at_price != null && p.compare_at_price > p.price;
   const outOfStock = p.stock <= 0;
 
   const handleAddToCart = () => {
-    const result = addToCart({ id: p.id, name: p.name, price: p.price, image_url: p.image_url, stock: p.stock });
+    if (!user) {
+      openAuth("signin");
+      return;
+    }
+
+    const result = addToCart({ id: p.id, type: "product", name: p.name, price: p.price, image_url: p.image_url, stock: p.stock });
     setMessage(result.success ? { text: "Added to cart.", error: false } : { text: result.error, error: true });
   };
 
