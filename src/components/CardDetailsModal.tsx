@@ -67,7 +67,7 @@ export default function CardDetailsModal({ onClose, onConfirm }: Props) {
         <h2 id="card-modal-title" className="font-display font-extrabold text-[clamp(26px,4vw,32px)] leading-[0.98] text-aqua m-0 mb-2">
           Card details
         </h2>
-        <p className="text-[13px] text-ink-dim mb-8">This is a simulated checkout — no real payment is processed.</p>
+        <p className="text-[13px] text-ink-dim mb-8">This is a simulated checkout. No real payment is processed.</p>
 
         <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
           <div>

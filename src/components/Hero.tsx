@@ -37,9 +37,6 @@ export default function Hero() {
           >
             Get Tickets <span>→</span>
           </a>
-          <button className="inline-flex items-center gap-2 text-ink-dim font-body text-[11px] tracking-[0.18em] uppercase font-medium cursor-pointer transition-colors duration-300 hover:text-ink bg-transparent border-none">
-            <span className="text-coral">▶</span> Watch Trailer
-          </button>
         </div>
 
       </div>

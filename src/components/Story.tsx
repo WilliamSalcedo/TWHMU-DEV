@@ -15,7 +15,7 @@ export default function Story() {
 
         <div>
           <span className="font-mono text-[11px] tracking-[0.18em] uppercase text-aqua mb-3.5 inline-block">
-            — Chapter One —
+            · Chapter One ·
           </span>
 
           <h2 className="font-display font-extrabold text-[clamp(48px,6.5vw,88px)] leading-[0.98] tracking-[-0.01em] text-ink m-0 mb-6">
@@ -32,7 +32,7 @@ export default function Story() {
           </p>
 
           <p className="text-[15px] leading-[1.65] text-ink-dim max-w-[56ch] mb-4.5">
-            We don't just perform the music — we honor the spirit of the women who made us who we
+            We don't just perform the music. We honor the spirit of the women who made us who we
             are. A theatrical experience built for the 90s kid in all of us, and the daughters
             they're raising.
           </p>

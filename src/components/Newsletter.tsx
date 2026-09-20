@@ -33,7 +33,7 @@ export default function Newsletter() {
               Saturday Letters
             </span>
             <h2 className="font-display font-bold text-[clamp(36px,4vw,56px)] leading-[0.98] tracking-[-0.01em] text-ink m-0 mb-6">
-              <em className="italic text-aqua font-semibold">A short note from the road —</em>
+              <em className="italic text-aqua font-semibold">A short note from the road,</em>
               <br />
               every Saturday morning.
             </h2>

@@ -76,7 +76,7 @@ export default function Checkout() {
           Sign in to check out
         </h1>
         <p className="text-[15px] text-ink-dim mb-8 max-w-[40ch]">
-          Browsing and adding to your cart is free — an account just keeps your orders in one place.
+          Browsing and adding to your cart is free. An account just keeps your orders in one place.
         </p>
         <button
           type="button"
