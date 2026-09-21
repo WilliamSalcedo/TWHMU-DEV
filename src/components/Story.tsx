@@ -36,13 +36,6 @@ export default function Story() {
             are. A theatrical experience built for the 90s kid in all of us, and the daughters
             they're raising.
           </p>
-
-          <a
-            href="#about"
-            className="mt-3 inline-flex items-center gap-2 px-[22px] py-[13px] rounded-full border-[1.5px] border-aqua text-aqua bg-transparent font-body font-semibold text-xs tracking-[0.16em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg hover:shadow-[0_0_40px_rgba(127,207,207,0.25)]"
-          >
-            Read the manifesto <span aria-hidden="true">›</span>
-          </a>
         </div>
 
         <figure className="m-0">

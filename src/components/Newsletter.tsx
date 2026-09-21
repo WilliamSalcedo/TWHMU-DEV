@@ -1,7 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { subscribeToNewsletter } from "../services/newsletter";
+import { useAuth } from "../context/useAuth";
 
 export default function Newsletter() {
+  const { user } = useAuth();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -69,13 +71,15 @@ export default function Newsletter() {
                 {message}
               </p>
             )}
-            <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-ink-faint">
-              Or{" "}
-              <a href="/account" className="text-ink-dim underline decoration-dashed underline-offset-4 hover:text-aqua normal-case tracking-normal">
-                create an account
-              </a>{" "}
-              for member pre-sales.
-            </span>
+            {!user && (
+              <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-ink-faint">
+                Or{" "}
+                <a href="/account" className="text-ink-dim underline decoration-dashed underline-offset-4 hover:text-aqua normal-case tracking-normal">
+                  create an account
+                </a>{" "}
+                for member pre-sales.
+              </span>
+            )}
           </form>
 
         </div>
