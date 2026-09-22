@@ -10,6 +10,7 @@ const links = [
   { label: "Tour", href: "/#tour" },
   { label: "The Women", href: "/#women" },
   { label: "Shop", href: "/#shop" },
+  { label: "Casting", href: "/casting" },
   { label: "Journal", href: "/#journal" },
 ];
 
@@ -30,19 +31,22 @@ export default function Navbar() {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 lg:px-10 py-[18px] bg-[linear-gradient(180deg,rgba(14,15,18,0.85)_0%,rgba(14,15,18,0)_100%)]">
-
-        {/* Hamburger — mobile only */}
         <button
           className="lg:hidden flex flex-col gap-[5px] cursor-pointer bg-transparent border-none p-1"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
         >
-          <span className={`block w-5 h-px bg-ink transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[6px]" : ""}`} />
-          <span className={`block w-5 h-px bg-ink transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-5 h-px bg-ink transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`} />
+          <span
+            className={`block w-5 h-px bg-ink transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[6px]" : ""}`}
+          />
+          <span
+            className={`block w-5 h-px bg-ink transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
+          />
+          <span
+            className={`block w-5 h-px bg-ink transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`}
+          />
         </button>
 
-        {/* Brand */}
         <Link to="/" className="flex items-center gap-3 no-underline">
           <div className="w-8 h-8 rounded-full border border-aqua flex items-center justify-center text-aqua text-base italic shrink-0 font-display">
             W
@@ -55,7 +59,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Links — desktop only */}
         <ul className="hidden lg:flex gap-7 list-none m-0 p-0">
           {links.map((link) => (
             <li key={link.label}>
@@ -84,7 +87,6 @@ export default function Navbar() {
           )}
         </ul>
 
-        {/* Right actions */}
         <div className="flex items-center gap-4">
           {user ? (
             <Link
@@ -110,8 +112,9 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu overlay */}
-      <div className={`fixed inset-0 z-[99] bg-bg flex flex-col items-center justify-center transition-all duration-500 lg:hidden ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+      <div
+        className={`fixed inset-0 z-[99] bg-bg flex flex-col items-center justify-center transition-all duration-500 lg:hidden ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+      >
         <ul className="flex flex-col items-center gap-8 list-none m-0 p-0">
           {links.map((link, i) => (
             <li
@@ -130,7 +133,9 @@ export default function Navbar() {
           ))}
           {user && (
             <li
-              style={{ transitionDelay: menuOpen ? `${links.length * 60}ms` : "0ms" }}
+              style={{
+                transitionDelay: menuOpen ? `${links.length * 60}ms` : "0ms",
+              }}
               className={`transition-all duration-300 ${menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
             >
               <Link

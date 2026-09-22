@@ -1,11 +1,21 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import { useAuthModal } from "../context/useAuthModal";
 import { getOrdersForUser } from "../services/orders";
 import { getAddresses, createAddress, deleteAddress, type NewAddress } from "../services/addresses";
-import type { OrderRow, OrderItemRow, AddressRow } from "../types/database";
+import { getMyCastingApplications } from "../services/casting";
+import { withProtocol } from "../utils/url";
+import type { OrderRow, OrderItemRow, AddressRow, CastingApplicationRow } from "../types/database";
 
-type Tab = "profile" | "orders" | "tickets" | "addresses";
+type Tab = "profile" | "orders" | "tickets" | "addresses" | "casting";
+
+const castingStatusClass: Record<CastingApplicationRow["status"], string> = {
+  pending: "border-coral-deep text-coral",
+  reviewed: "border-aqua-deep text-aqua",
+  accepted: "border-aqua text-aqua bg-aqua/[0.06]",
+  rejected: "border-ink-faint text-ink-faint",
+};
 
 const statusClass: Record<OrderRow["status"], string> = {
   confirmed: "border-aqua-deep text-aqua",
@@ -250,6 +260,71 @@ function AddressesTab({ userId }: { userId: string }) {
   );
 }
 
+function CastingTab() {
+  const [applications, setApplications] = useState<CastingApplicationRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getMyCastingApplications().then((rows) => {
+      setApplications(rows);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return <p className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink-faint py-6">Loading…</p>;
+  }
+
+  if (applications.length === 0) {
+    return (
+      <div>
+        <p className="text-[15px] text-ink-dim mb-6">You haven't submitted a casting application yet.</p>
+        <Link
+          to="/casting"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-[1.5px] border-aqua text-aqua font-semibold text-[11px] tracking-[0.16em] uppercase transition-all duration-300 hover:bg-aqua hover:text-bg no-underline"
+        >
+          Apply to casting
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <ul className="list-none m-0 p-0 flex flex-col gap-3">
+      {applications.map((app) => {
+        const date = new Date(app.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+        return (
+          <li key={app.id} className="border border-stroke px-5 py-4">
+            <div className="flex items-center justify-between gap-4 flex-wrap mb-2">
+              <span className="font-display text-lg text-ink">{app.role_interest}</span>
+              <span
+                className={`inline-flex px-[11px] py-[5px] border font-mono text-[10px] tracking-[0.12em] uppercase ${castingStatusClass[app.status]}`}
+              >
+                {app.status}
+              </span>
+            </div>
+            <p className="font-mono text-[10px] tracking-[0.12em] uppercase text-ink-faint mb-3">
+              Submitted {date}
+            </p>
+            <p className="text-[14px] text-ink-dim leading-[1.6] m-0">{app.experience}</p>
+            {app.portfolio_url && (
+              <a
+                href={withProtocol(app.portfolio_url)}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block mt-2 text-aqua text-[13px] underline decoration-dashed underline-offset-4 hover:text-aqua-hi"
+              >
+                View portfolio ↗
+              </a>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 export default function Profile() {
   const { user, loading, signOut } = useAuth();
   const { openAuth } = useAuthModal();
@@ -306,6 +381,7 @@ export default function Profile() {
     { key: "orders", label: "Orders" },
     { key: "tickets", label: "My Tickets" },
     { key: "addresses", label: "Addresses" },
+    { key: "casting", label: "Casting" },
     { key: "notifications", label: "Notifications", disabled: true },
   ];
 
@@ -389,6 +465,8 @@ export default function Profile() {
           )}
 
           {tab === "addresses" && <AddressesTab userId={user.id} />}
+
+          {tab === "casting" && <CastingTab />}
         </div>
 
       </div>

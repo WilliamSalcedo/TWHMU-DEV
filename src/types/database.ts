@@ -73,6 +73,20 @@ export type AddressRow = {
   created_at: string;
 };
 
+export type CastingApplicationRow = {
+  id: string;
+  user_id: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  role_interest: string;
+  experience: string;
+  portfolio_url: string | null;
+  message: string | null;
+  status: "pending" | "reviewed" | "accepted" | "rejected";
+  created_at: string;
+};
+
 export type OrderRow = {
   id: string;
   user_id: string;
